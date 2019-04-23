@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/fonts">
+        <file alias="adrip1.ttf">assets/fonts/adrip1.ttf</file>
+    </qresource>
+    <qresource prefix="/sprites">
+        <file alias="Background_Image.png">assets/sprites/background_image.png</file>
+        <file alias="BlueBackground.png">assets/sprites/BlueBackground.png</file>
+        <file alias="Brick.png">assets/sprites/Brick.png</file>
+        <file alias="Enemy1.png">assets/sprites/Enemy1.png</file>
+        <file alias="Ground1.png">assets/sprites/Ground1.png</file>
+        <file alias="Ground2.png">assets/sprites/Ground2.png</file>
+        <file alias="Ground3.png">assets/sprites/Ground3.png</file>
+        <file alias="SpriteSheets.png">assets/sprites/sprite_sheet.png</file>
+        <file alias="Wall1.png">assets/sprites/Wall1.png</file>
+    </qresource>
+    <qresource prefix="/sounds">
+        <file>assets/sounds/BG1Sounds.wav</file>
+        <file>assets/sounds/Explosion3.wav</file>
+        <file>assets/sounds/Laser_Shoot6.wav</file>
+    </qresource>
+</RCC>
