@@ -271,4 +271,6 @@ void Hero::keyPressEvent(QKeyEvent *event)
         scene()->addItem(theBullet);
         qDebug() << "Space ";
     }
+
+    QGraphicsItem::keyPressEvent(event);
 }

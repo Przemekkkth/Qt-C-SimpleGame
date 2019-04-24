@@ -77,6 +77,14 @@ private slots:
     void slotHitTarget(QGraphicsItem *item);
 
 
+
+    // QGraphicsScene interface
+protected:
+    void keyPressEvent(QKeyEvent *event);
+
+    // QGraphicsScene interface
+protected:
+    void mousePressEvent(QGraphicsSceneMouseEvent *event);
 };
 
 #endif // SCENE_H

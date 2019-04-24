@@ -281,6 +281,17 @@ void Scene::slotHitTarget(QGraphicsItem* item)
     //    }
 }
 
+void Scene::keyPressEvent(QKeyEvent *event)
+{
+    QGraphicsScene::keyPressEvent(event);
+}
+
+void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)
+{
+    m_hero->setFocus();
+   // QGraphicsScene::mousePressEvent(event);
+}
+
 
 void Scene::setColumns(int number)
 {
