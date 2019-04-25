@@ -22,9 +22,9 @@ public:
     void debugBundingRect();
     void createRoad();
 private:
-    QPixmap m_pixmap;
     int m_health;
     int m_maxHealth;
+    int m_speed;
     QRectF m_entityRect;
 
     qreal m_rotation;
@@ -39,6 +39,8 @@ private:
     int m_pointIndex;
 
     void rotateToPoint(QPointF p);
+
+
 
 protected:
     QRectF boundingRect() const;

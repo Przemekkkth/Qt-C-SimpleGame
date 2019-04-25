@@ -17,11 +17,10 @@ int Evil1::type() const
 Evil1::Evil1(QObject *parent) : QObject(parent), QGraphicsItem ()
 {
     m_health = 30;
+    m_speed = 2;
     m_maxHealth = m_health;
     m_entityRect = QRectF(0, 0, 64, 40);
     m_healthRect = QRectF(m_entityRect.x(), m_entityRect.y(), m_entityRect.width(), m_entityRect.height()/10 );
-
-    m_pixmap = QPixmap(":/sprites/Enemy1.png");
     m_entityRect.setHeight(68);
 
     m_EntityPixmap = new QGraphicsPixmapItem(QPixmap(":/sprites/Enemy1.png"),this);
@@ -40,9 +39,6 @@ Evil1::Evil1(QObject *parent) : QObject(parent), QGraphicsItem ()
 
     m_showHealth = false;
 
-//    QTimer* timer = new QTimer(this);
-//    connect(timer, &QTimer::timeout, this, &Evil1::slotMoveForward);
-//    timer->start(10000/60);
 
 }
 
@@ -59,8 +55,6 @@ void Evil1::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/,
         painter->setBrush(Qt::red);
         painter->drawRect( QRectF(m_entityRect.x(), m_entityRect.y(), m_entityRect.width(), m_entityRect.height()/10) );
     }
-//    painter->setBrush(Qt::red);
-//    painter->drawEllipse(shape().boundingRect());
 }
 
 QPainterPath Evil1::shape() const
@@ -75,8 +69,10 @@ void Evil1::hit(int damage)
 {
     m_health -= damage;   // Reduce the target's health
     update( m_healthRect );    // Redraw target
-    // If health is over, it will initiate the death of the target
-    if(m_health <= 0) this->deleteLater();
+    if(m_health <= 0)
+    {
+        deleteLater();
+    }
 }
 
 void Evil1::setRect(QRectF newRect)
@@ -89,18 +85,8 @@ void Evil1::setRect(QRectF newRect)
     prepareGeometryChange();
     setTransformOriginPoint(m_entityRect.center());
     m_entityRect = newRect;
-    qreal scaleX = newRect.width() / m_EntityPixmap->boundingRect().width();
-    qreal scaleY = ( newRect.height() - m_healthRect.height() ) / newRect.width() / m_EntityPixmap->boundingRect().height();
-
     m_EntityPixmap->setScale( newRect.width() / m_EntityPixmap->boundingRect().width());
-    m_EntityPixmap->setX(m_entityRect.x());
-    m_EntityPixmap->setY(m_entityRect.y() + m_healthRect.height());
-    m_EntityPixmap->boundingRect().setWidth(
-                m_EntityPixmap->boundingRect().width() + scaleX
-                );
-    m_EntityPixmap->boundingRect().setHeight(
-                m_EntityPixmap->boundingRect().height() + scaleY
-                );
+
     update();
 }
 
@@ -121,18 +107,6 @@ void Evil1::createRoad()
 {
     if( m_points.isEmpty() )
         return;
-
-//    //static 4
-//    QLineF line01(m_points[0], m_points[1]);
-//    QLineF line12(m_points[1], m_points[2]);
-//    QLineF line23(m_points[2], m_points[3]);
-//    QLineF line03(m_points[0], m_points[3]);
-
-//    scene()->addLine(line01);
-//    scene()->addLine(line12);
-//    scene()->addLine(line23);
-//    scene()->addLine(line03);
-
 }
 
 void Evil1::setMovePoints(QList<QPointF>& points)
@@ -147,39 +121,38 @@ void Evil1::setMovePoints(QList<QPointF>& points)
 void Evil1::slotMoveForward()
 {
     if( m_points.isEmpty() )
+    {
         return;
+    }
 
-    int STEP_SIZE = 2;
     QLineF ln(QPointF(pos().x() + m_entityRect.width()/2 , pos().y() + m_entityRect.height()/2 ), m_dest);
 
-
-    if( ln.length() < ( STEP_SIZE + 1) ){
+    if( ln.length() < ( m_speed * 2) )
+    {
         m_pointIndex++;
         if( m_pointIndex >= m_points.size() )
         {
             m_pointIndex = 0;
         }
-
         m_dest = m_points[m_pointIndex];
     }
 
-
     double theta = ln.angle();//ln.angle();
-
-    double dy = STEP_SIZE*qSin( qDegreesToRadians(theta) );
-    double dx = STEP_SIZE*qCos( qDegreesToRadians(theta) );
-
+    double dy = m_speed*qSin( qDegreesToRadians(theta) );
+    double dx = m_speed*qCos( qDegreesToRadians(theta) );
     setPos(x() + dx, y() - dy);
 }
 
 void Evil1::advance(int phase)
 {
-    if(phase){
+    if(phase)
+    {
         slotMoveForward();
     }
 }
 
-void Evil1::rotateToPoint(QPointF p){
+void Evil1::rotateToPoint(QPointF p)
+{
     QLineF ln(pos(),p);
     setRotation(-1 * ln.angle());
 }
