@@ -46,6 +46,10 @@ protected:
     QPainterPath shape() const;
 private slots:
     void slotMoveForward();
+
+    // QGraphicsItem interface
+public:
+    void advance(int phase);
 };
 
 #endif // EVIL1_H

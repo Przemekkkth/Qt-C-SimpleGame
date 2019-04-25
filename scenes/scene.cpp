@@ -14,6 +14,8 @@
 
 #include <QDebug>
 
+#include <QTimer>
+
 Scene::Scene(QObject */*parent*/) : QGraphicsScene ()
 {
 
@@ -29,7 +31,9 @@ Scene::Scene(QObject */*parent*/) : QGraphicsScene ()
     createEntities();
     setEntitiesPosition();
 
-
+    QTimer* timer = new QTimer(this);
+    connect(timer, &QTimer::timeout, this, &Scene::advance);
+    timer->start(1000/60);
 }
 
 
@@ -292,6 +296,10 @@ void Scene::mousePressEvent(QGraphicsSceneMouseEvent *event)
    // QGraphicsScene::mousePressEvent(event);
 }
 
+void Scene::advance()
+{
+    QGraphicsScene::advance();
+}
 
 void Scene::setColumns(int number)
 {

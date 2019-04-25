@@ -40,9 +40,9 @@ Evil1::Evil1(QObject *parent) : QObject(parent), QGraphicsItem ()
 
     m_showHealth = false;
 
-    QTimer* timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &Evil1::slotMoveForward);
-    timer->start(10000/60);
+//    QTimer* timer = new QTimer(this);
+//    connect(timer, &QTimer::timeout, this, &Evil1::slotMoveForward);
+//    timer->start(10000/60);
 
 }
 
@@ -149,7 +149,7 @@ void Evil1::slotMoveForward()
     if( m_points.isEmpty() )
         return;
 
-    int STEP_SIZE = 10;
+    int STEP_SIZE = 2;
     QLineF ln(QPointF(pos().x() + m_entityRect.width()/2 , pos().y() + m_entityRect.height()/2 ), m_dest);
 
 
@@ -170,6 +170,13 @@ void Evil1::slotMoveForward()
     double dx = STEP_SIZE*qCos( qDegreesToRadians(theta) );
 
     setPos(x() + dx, y() - dy);
+}
+
+void Evil1::advance(int phase)
+{
+    if(phase){
+        slotMoveForward();
+    }
 }
 
 void Evil1::rotateToPoint(QPointF p){

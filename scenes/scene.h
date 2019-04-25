@@ -81,10 +81,10 @@ private slots:
     // QGraphicsScene interface
 protected:
     void keyPressEvent(QKeyEvent *event);
-
-    // QGraphicsScene interface
-protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *event);
+
+public slots:
+   void advance();
 };
 
 #endif // SCENE_H
