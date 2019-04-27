@@ -118,6 +118,11 @@ void Evil1::setMovePoints(QList<QPointF>& points)
     m_points = points;
 }
 
+QList<QPointF> Evil1::getMovePoints() const
+{
+    return m_points;
+}
+
 void Evil1::slotMoveForward()
 {
     if( m_points.isEmpty() )

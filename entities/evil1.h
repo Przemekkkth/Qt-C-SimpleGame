@@ -18,6 +18,7 @@ public:
     QRectF rect() const;
 
     void setMovePoints(QList<QPointF>& points);
+    QList<QPointF> getMovePoints() const;
 
     void debugBundingRect();
     void createRoad();

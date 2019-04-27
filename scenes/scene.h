@@ -14,6 +14,7 @@ class Brick;
 class BlueBackground;
 class QMediaPlayer;
 class QMediaPlaylist;
+class QTimer;
 
 class Scene : public QGraphicsScene
 {
@@ -65,12 +66,15 @@ private:
     //To debug
     SceneDebuger *m_sceneDebuger;
     bool m_debugMode;
+    bool m_pauseMode;
 
     QMediaPlayer *m_shotSound, *m_explosionEnemySound;
     QMediaPlayer *m_backgroundSound;
     QMediaPlaylist *m_backgroundMusic;
 
     void initMedia();
+
+    QTimer* m_sceneTimer;
 private slots:
     void slotBullet(QPointF start, QPointF end);
     void slotCreateTarget();

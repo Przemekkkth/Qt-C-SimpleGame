@@ -11,7 +11,7 @@
 
 #include <QMediaPlayer>
 #include <QMediaPlaylist>
-
+#include <QKeyEvent>
 #include <QDebug>
 
 #include <QTimer>
@@ -27,13 +27,14 @@ Scene::Scene(QObject */*parent*/) : QGraphicsScene ()
 
     playBackgroundMusic();
     m_debugMode = false;
+    m_pauseMode = false;
 
     createEntities();
     setEntitiesPosition();
 
-    QTimer* timer = new QTimer(this);
-    connect(timer, &QTimer::timeout, this, &Scene::advance);
-    timer->start(1000/60);
+    m_sceneTimer = new QTimer(this);
+    connect(m_sceneTimer, &QTimer::timeout, this, &Scene::advance);
+    m_sceneTimer->start(1000/60);
 }
 
 
@@ -193,15 +194,7 @@ void Scene::setEntitiesPosition()
                     m_hero->rect().y() ,
                     tileWidth,
                     tileHeight));
-//Enemies
 
-    for(int idx = 0 ; idx < m_enemiesVector.size(); idx++)
-    {
-        m_enemiesVector[idx]->setRect(QRectF(m_enemiesVector[idx]->rect().x(),
-                                             m_enemiesVector[idx]->rect().y(),
-                                             2*tileWidth,
-                                             2*tileHeight));
-    }
 //Create road for enemies
     m_enemiesVector[0]->setMovePoints(QList<QPointF>() << QPointF(  27*tileWidth, 3*tileHeight)
                                                                                       << QPointF(27*tileWidth, 9*tileHeight)
@@ -220,6 +213,16 @@ void Scene::setEntitiesPosition()
                                                                                       << QPointF(2*tileWidth, 26*tileHeight)
                                                                                       << QPointF(2*tileWidth, 20*tileHeight)
                                       );
+
+//Enemies
+
+        for(int idx = 0 ; idx < m_enemiesVector.size(); idx++)
+        {
+            m_enemiesVector[idx]->setRect(QRectF(m_enemiesVector[idx]->getMovePoints().at(0).x(),
+                                                 m_enemiesVector[idx]->getMovePoints().at(0).y(),
+                                                 2*tileWidth,
+                                                 2*tileHeight));
+        }
 
 //Grid for see tiles
     if(m_debugMode){
@@ -287,6 +290,24 @@ void Scene::slotHitTarget(QGraphicsItem* item)
 
 void Scene::keyPressEvent(QKeyEvent *event)
 {
+    if(event->isAutoRepeat())
+    {
+        return;
+    }
+    if(event->key() == Qt::Key_P)
+    {
+        if(m_pauseMode)
+        {
+            m_sceneTimer->stop();
+        }
+        else
+        {
+            m_sceneTimer->start();
+        }
+        m_pauseMode = !m_pauseMode;
+
+    }
+
     QGraphicsScene::keyPressEvent(event);
 }
 
