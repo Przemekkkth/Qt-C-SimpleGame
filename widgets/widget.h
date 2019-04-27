@@ -6,7 +6,10 @@
 #include "ui_menuwidget.h"
 #include "menuwidget.h"
 
+#include "optionswidget.h"
+
 class NewView;
+//class OptionsWidget;
 
 class Widget : public QWidget
 {
@@ -19,6 +22,8 @@ public:
 private:
     QStackedWidget *m_mainWidget;
     MenuWidget* m_menuWidget;
+    OptionsWidget* m_optionsWidget;
+
     NewView *m_newView;
 
     void createConnections();
@@ -26,6 +31,7 @@ private:
 private slots:
     void slotOpenPlayWidget();
     void slotOpenMenuWidget();
+    void slotOpenOptionsWidget();
 };
 
 #endif // WIDGET_H

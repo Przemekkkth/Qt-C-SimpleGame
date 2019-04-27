@@ -53,7 +53,7 @@ void MenuWidget::createStylesheets()
 void MenuWidget::paintEvent(QPaintEvent *event)
 {
     QPainter painter(this);
-    painter.drawPixmap(rect(), QPixmap(":/Images/background_image.png"));
+    painter.drawPixmap(rect(), QPixmap(":/sprites/Background_Image.png"));
 }
 
 void MenuWidget::resizeEvent(QResizeEvent* event)
@@ -62,7 +62,7 @@ void MenuWidget::resizeEvent(QResizeEvent* event)
     myFont.setPixelSize(event->size().height()/6);
 
     QFont buttonsFont = ui->playButton->font();
-    buttonsFont.setPixelSize(event->size().height()/22);
+    buttonsFont.setPixelSize(32);
     ui->playButton->setFont(buttonsFont);
     ui->optionsButton->setFont(buttonsFont);
     ui->quitButton->setFont(buttonsFont);

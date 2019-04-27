@@ -1,5 +1,5 @@
-#ifndef WIDGET_H
-#define WIDGET_H
+#ifndef OPTIONSWIDGET_H
+#define OPTIONSWIDGET_H
 
 #include <QWidget>
 #include <QPaintEvent>

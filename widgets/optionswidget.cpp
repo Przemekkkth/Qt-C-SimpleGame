@@ -16,9 +16,11 @@ OptionsWidget::OptionsWidget(QWidget *parent) :
     //ui->label->setAttribute(Qt::WA_TranslucentBackground);
     QList<QLabel*> list = ui->stackedWidgetPage1->findChildren<QLabel*>();
 
-    int id = QFontDatabase::addApplicationFont(":/fonts/assets/fonts/adrip1.ttf");
+    int id = QFontDatabase::addApplicationFont(":/fonts/adrip1.ttf");
     QString family = QFontDatabase::applicationFontFamilies(id).at(0);
 
+    ui->stackedWidgetPage1->setStyleSheet("QWidget#stackedWidgetPage1{ background-image: url(:/sprites/Background_Image.png)}");
+    ui->stackedWidgetPage2->setStyleSheet("QWidget#stackedWidgetPage2{ background-image: url(:/sprites/Background_Image.png)}");
 
 
     for(int i = 0; i < list.count(); ++i)
@@ -50,6 +52,8 @@ OptionsWidget::OptionsWidget(QWidget *parent) :
 
     ui->soundSlider->setCursor(QCursor(Qt::PointingHandCursor));
     ui->musicSlider->setCursor(QCursor(Qt::PointingHandCursor));
+
+    resize(800, 600);
 }
 
 OptionsWidget::~OptionsWidget()

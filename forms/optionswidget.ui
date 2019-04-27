@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>587</height>
+    <width>800</width>
+    <height>600</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -63,12 +63,12 @@ QTabBar::tab
      <property name="styleSheet">
       <string notr="true">QWidget#stackedWidgetPage1
 {
- background-image: url(:/sprites/sprites/background_image.png)
+ background-image: url(:/sprites/Background_Image.png)
 }
 
 QWidget#stackedWidgetPage2
 {
- background-image: url(:/sprites/sprites/background_image.png)
+ background-image: url(:/sprites/Background_Image.png)
 }
 
 QPushButton
@@ -83,7 +83,7 @@ color: white;
      <property name="currentIndex">
       <number>0</number>
      </property>
-     <widget class="QWidget" name="stackedWidgetPage1" native="true">
+     <widget class="QWidget" name="stackedWidgetPage1">
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -571,7 +571,7 @@ color: white;
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="stackedWidgetPage2" native="true">
+     <widget class="QWidget" name="stackedWidgetPage2">
       <layout class="QVBoxLayout" name="verticalLayout_3">
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_14">
