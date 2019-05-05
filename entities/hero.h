@@ -43,17 +43,25 @@ private:
     void rightOffset(int offset);
     void upOffset(int offset);
     void downOffset(int offset);
+    void leftRotationOffset(int offset);
+    void rightRotationOffset(int offset);
 
     bool onCollisionEnter(QString collider);
 
     QRectF m_heroRect;
     int m_speed;
+    int m_angularVelocity;
 
     void setMouseTracking(bool);
 
     // QGraphicsItem interface
+    bool m_activeMode;
 protected:
     virtual void keyPressEvent(QKeyEvent *event);
+
+    // QGraphicsItem interface
+public:
+    void advance(int phase);
 };
 
 #endif // HERO_H

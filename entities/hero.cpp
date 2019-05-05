@@ -31,6 +31,7 @@ Hero::Hero(QObject *parent) :
 {
     setTransformOriginPoint(m_heroRect.center());
     m_speed = 2;
+    m_angularVelocity = 2;
     setRotation(0);
     shot = false;// Set the starting triangle rotation
     gameTimer = new QTimer();   // Init game timer
@@ -39,10 +40,10 @@ Hero::Hero(QObject *parent) :
     gameTimer->start(5);   // Start timer
     target = QPointF(0,0);  // Set the initial position of the cursor
 
-    m_trackingMouse = true;
-    bulletTimer = new QTimer();
-    connect(bulletTimer, &QTimer::timeout, this, &Hero::slotBulletTimer);
-    bulletTimer->start(1000/6);
+//    m_trackingMouse = true;
+//    bulletTimer = new QTimer();
+//    connect(bulletTimer, &QTimer::timeout, this, &Hero::slotBulletTimer);
+//    bulletTimer->start(1000/6);
 
 
     m_heroRect = QRectF(-12,-15,24,30);
@@ -152,14 +153,20 @@ void Hero::slotGameTimer()
 
     if(GetAsyncKeyState(VK_LEFT))
     {
-        setRotation(static_cast<int>(rotation()-4)%360);
-        qDebug() << "L: " << static_cast<int>(rotation()-4)%360;
+        setRotation(static_cast<int>(rotation()-m_angularVelocity)%360);
+        if(!onCollisionEnter("Background"))
+        {
+           rightRotationOffset(m_angularVelocity);
+        }
     }
 
     if(GetAsyncKeyState(VK_RIGHT))
     {
-        setRotation(static_cast<int>(rotation()+4)%360);
-        qDebug() << "R: " << static_cast<int>(rotation()+4)%360;
+        setRotation(static_cast<int>(rotation()+m_angularVelocity)%360);
+        if(!onCollisionEnter("Background"))
+        {
+           leftRotationOffset(m_angularVelocity);
+        }
     }
 
 }
@@ -218,6 +225,16 @@ void Hero::downOffset(int offset)
     this->setY(this->y() + offset);
 }
 
+void Hero::leftRotationOffset(int offset)
+{
+    setRotation(rotation() - offset);
+}
+
+void Hero::rightRotationOffset(int offset)
+{
+    setRotation(rotation() + offset);
+}
+
 bool Hero::onCollisionEnter(QString collider)
 {
     //Calculate a type of collision
@@ -261,7 +278,9 @@ void Hero::setMouseTracking(bool enabled)
 
 void Hero::keyPressEvent(QKeyEvent *event)
 {
-    qDebug() << "Item pressed ";
+    if(!m_activeMode)
+        return;
+
     if(event->isAutoRepeat())
         return;
 
@@ -269,8 +288,21 @@ void Hero::keyPressEvent(QKeyEvent *event)
     {
         Bullet *theBullet = new Bullet(mapToScene(boundingRect().center().x(), boundingRect().y() - m_speed), this, rotation());
         scene()->addItem(theBullet);
-        qDebug() << "Space ";
     }
 
     QGraphicsItem::keyPressEvent(event);
+}
+
+void Hero::advance(int phase)
+{
+    if(phase)
+    {
+        slotGameTimer();
+        m_activeMode = true;
+        qDebug() << "true";
+    }
+    else
+    {
+        m_activeMode = false;
+    }
 }
