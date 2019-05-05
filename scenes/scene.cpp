@@ -259,6 +259,7 @@ void Scene::slotBullet(QPointF start, QPointF end)
 {
     Bullet *bullet = new Bullet(start, m_hero, 9);
     addItem(bullet);
+    qDebug() << "Hello";
     connect(bullet, &Bullet::hitOpponent, this, &Scene::slotHitTarget);
 
 }
@@ -285,7 +286,7 @@ void Scene::slotHitTarget(QGraphicsItem* item)
 //            Enemy* target = qgraphicsitem_cast<Enemy*>(targ);
 //            target->hit(randomBetween(1, 3));
 //        }
-    //    }
+//        }
 }
 
 void Scene::keyPressEvent(QKeyEvent *event)

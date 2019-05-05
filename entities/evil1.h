@@ -49,7 +49,8 @@ protected:
     QPainterPath shape() const;
 private slots:
     void slotMoveForward();
-
+public slots:
+    void slotShowHealth();
     // QGraphicsItem interface
 public:
     void advance(int phase);

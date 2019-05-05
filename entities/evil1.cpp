@@ -148,6 +148,13 @@ void Evil1::slotMoveForward()
     setPos(x() + dx, y() - dy);
 }
 
+void Evil1::slotShowHealth()
+{
+    m_showHealth = true;
+    QTimer *tempTimer = new QTimer();
+    tempTimer->singleShot(2000, this, [this](){m_showHealth = false;});
+}
+
 void Evil1::advance(int phase)
 {
     if(phase)

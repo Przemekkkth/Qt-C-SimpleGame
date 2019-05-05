@@ -299,7 +299,7 @@ void Hero::advance(int phase)
     {
         slotGameTimer();
         m_activeMode = true;
-        qDebug() << "true";
+
     }
     else
     {

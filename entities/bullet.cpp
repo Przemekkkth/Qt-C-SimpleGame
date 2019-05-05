@@ -26,23 +26,6 @@ Bullet::Bullet(QPointF start, QGraphicsItem * hero, qreal rotation, QObject *par
     setRotation(rotation);
     setPos(start);
 
-//    QLineF lineToTarget(start);
-//    // The angle of rotation in the direction to the target
-//    qreal angleToTarget = ::acos(lineToTarget.dx() / lineToTarget.length());
-//    if (lineToTarget.dy() < 0)
-//        angleToTarget = TwoPi - angleToTarget;
-//    angleToTarget = normalizeAngle((Pi - angleToTarget) + Pi / 2);
-
-//    /* Expand bullet trajectory
-//     * */
-//    if (angleToTarget >= 0 && angleToTarget < Pi) {
-//        /// Rotate left
-//        setRotation(rotation() - angleToTarget * 180 /Pi);
-//    } else if (angleToTarget <= TwoPi && angleToTarget > Pi) {
-//        /// Rotate right
-//        setRotation(rotation() + (angleToTarget - TwoPi )* (-180) /Pi);
-//    }
-
     timerBullet = new QTimer();
     connect(timerBullet, &QTimer::timeout, this, &Bullet::slotTimerBullet);
     timerBullet->start(7);
@@ -81,13 +64,20 @@ void Bullet::slotTimerBullet()
         else if(item->type() == GroundType || item->type() == BrickType || item->type() == WallType)
         {
             scene()->addItem(new Sprite(pos()));
-            this->deleteLater();
+            deleteLater();
         }
         else if(item->type() == Evil1Type)
         {
+            qDebug() << "Hello";
+            Evil1 *evilEnemy = qgraphicsitem_cast<Evil1*>(item);
+            //connect()
+            if(evilEnemy)
+            {
+                connect(this, &Bullet::hitOpponent, evilEnemy, &Evil1::slotShowHealth);
+            }
             scene()->addItem(new Sprite(pos()));
             emit hitOpponent(item);
-            this->deleteLater();
+            deleteLater();
         }
     }
 
