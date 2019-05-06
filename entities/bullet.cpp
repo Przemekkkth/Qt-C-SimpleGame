@@ -58,6 +58,7 @@ void Bullet::slotTimerBullet()
     foreach (QGraphicsItem *item, foundItems) {
         if (item == this || item == hero || item->type() == (UserType + 1)  )
         {
+
             continue;
         }
         //Evil1 || Ground || Brick
@@ -68,14 +69,14 @@ void Bullet::slotTimerBullet()
         }
         else if(item->type() == Evil1Type)
         {
-            qDebug() << "Hello";
+            scene()->addItem(new Sprite(pos()));
             Evil1 *evilEnemy = qgraphicsitem_cast<Evil1*>(item);
             //connect()
             if(evilEnemy)
             {
                 connect(this, &Bullet::hitOpponent, evilEnemy, &Evil1::slotShowHealth);
             }
-            scene()->addItem(new Sprite(pos()));
+
             emit hitOpponent(item);
             deleteLater();
         }

@@ -4,7 +4,7 @@ Sprite::Sprite(QPointF point, QObject *parent) : QObject(parent), QGraphicsItem(
 {
     setPos(point);
     currentFrame = 0;
-    spriteImage = new QPixmap(":/sprites/sprites/sprite_sheet.png");
+    spriteImage = new QPixmap(":/sprites/SpriteSheets.png");
 
     timer = new QTimer();
     connect(timer, &QTimer::timeout,

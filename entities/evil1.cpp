@@ -55,6 +55,8 @@ void Evil1::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/,
         painter->setBrush(Qt::red);
         painter->drawRect( QRectF(m_entityRect.x(), m_entityRect.y(), m_entityRect.width(), m_entityRect.height()/10) );
     }
+//    painter->setBrush(Qt::yellow);
+//    painter->drawRect(rect());
 }
 
 QPainterPath Evil1::shape() const
@@ -82,12 +84,19 @@ void Evil1::setRect(QRectF newRect)
         return;
     }
 
-    prepareGeometryChange();
-    setTransformOriginPoint(m_entityRect.center());
-    m_entityRect = newRect;
-    m_EntityPixmap->setScale( newRect.width() / m_EntityPixmap->boundingRect().width());
+//    qDebug() << "newRect " << newRect.x() << " " << newRect.y() << " " << newRect.width() << " " << newRect.height();
 
-    update();
+    qreal scaleX = newRect.width() / m_EntityPixmap->boundingRect().width();
+    qreal scaleY =  newRect.height()  / m_EntityPixmap->boundingRect().height();
+    setTransformOriginPoint(m_entityRect.center());
+
+    m_entityRect = newRect;
+    m_EntityPixmap->setScale( scaleX );
+
+
+//    debugBundingRect();
+//    prepareGeometryChange();
+//    update();
 }
 
 QRectF Evil1::rect() const

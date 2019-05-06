@@ -218,8 +218,8 @@ void Scene::setEntitiesPosition()
 
         for(int idx = 0 ; idx < m_enemiesVector.size(); idx++)
         {
-            m_enemiesVector[idx]->setRect(QRectF(m_enemiesVector[idx]->getMovePoints().at(0).x(),
-                                                 m_enemiesVector[idx]->getMovePoints().at(0).y(),
+            m_enemiesVector[idx]->setRect(QRectF(m_enemiesVector[idx]->rect().x(),
+                                                 m_enemiesVector[idx]->rect().y(),
                                                  2*tileWidth,
                                                  2*tileHeight));
         }
