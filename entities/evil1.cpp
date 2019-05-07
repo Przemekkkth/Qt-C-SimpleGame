@@ -16,7 +16,7 @@ int Evil1::type() const
 
 Evil1::Evil1(QObject *parent) : QObject(parent), QGraphicsItem ()
 {
-    m_health = 30;
+    m_health = m_maxHealth = 30;
     m_speed = 2;
     m_maxHealth = m_health;
     m_entityRect = QRectF(0, 0, 64, 40);
@@ -53,10 +53,10 @@ void Evil1::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/,
     if(m_showHealth)
     {
         painter->setBrush(Qt::red);
-        painter->drawRect( QRectF(m_entityRect.x(), m_entityRect.y(), m_entityRect.width(), m_entityRect.height()/10) );
+        painter->drawRect( QRectF(m_entityRect.x(), m_entityRect.y(), m_entityRect.width() * m_health/m_maxHealth, m_entityRect.height()/10) );
+
     }
-//    painter->setBrush(Qt::yellow);
-//    painter->drawRect(rect());
+
 }
 
 QPainterPath Evil1::shape() const
@@ -84,8 +84,6 @@ void Evil1::setRect(QRectF newRect)
         return;
     }
 
-//    qDebug() << "newRect " << newRect.x() << " " << newRect.y() << " " << newRect.width() << " " << newRect.height();
-
     qreal scaleX = newRect.width() / m_EntityPixmap->boundingRect().width();
     qreal scaleY =  newRect.height()  / m_EntityPixmap->boundingRect().height();
     setTransformOriginPoint(m_entityRect.center());
@@ -93,10 +91,8 @@ void Evil1::setRect(QRectF newRect)
     m_entityRect = newRect;
     m_EntityPixmap->setScale( scaleX );
 
-
-//    debugBundingRect();
-//    prepareGeometryChange();
-//    update();
+    prepareGeometryChange();
+    update();
 }
 
 QRectF Evil1::rect() const
@@ -162,6 +158,14 @@ void Evil1::slotShowHealth()
     m_showHealth = true;
     QTimer *tempTimer = new QTimer();
     tempTimer->singleShot(2000, this, [this](){m_showHealth = false;});
+}
+
+void Evil1::slotTakeDamage()
+{
+    if(sender())
+    {
+        hit(10);
+    }
 }
 
 void Evil1::advance(int phase)

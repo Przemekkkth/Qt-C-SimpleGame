@@ -51,6 +51,7 @@ private slots:
     void slotMoveForward();
 public slots:
     void slotShowHealth();
+    void slotTakeDamage();
     // QGraphicsItem interface
 public:
     void advance(int phase);

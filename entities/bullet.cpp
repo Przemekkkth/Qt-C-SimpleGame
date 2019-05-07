@@ -74,6 +74,7 @@ void Bullet::slotTimerBullet()
             //connect()
             if(evilEnemy)
             {
+                connect(this, &Bullet::hitOpponent, evilEnemy, &Evil1::slotTakeDamage);
                 connect(this, &Bullet::hitOpponent, evilEnemy, &Evil1::slotShowHealth);
             }
 
