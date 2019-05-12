@@ -63,8 +63,8 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 FORMS += \
-    forms/menuwidget.ui \
-    forms/optionswidget.ui
+    widgets/optionswidget.ui \
+    widgets/menuwidget.ui
 
 RESOURCES += \
     assets.qrc

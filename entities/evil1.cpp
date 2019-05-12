@@ -16,30 +16,24 @@ int Evil1::type() const
 
 Evil1::Evil1(QObject *parent) : QObject(parent), QGraphicsItem ()
 {
+    //set health score, the best value is even. I set
     m_health = m_maxHealth = 30;
     m_speed = 2;
     m_maxHealth = m_health;
+    m_pointIndex = 0;
+    m_showHealth = false;
+
+    //Entity geometry and set proportion
     m_entityRect = QRectF(0, 0, 64, 40);
     m_healthRect = QRectF(m_entityRect.x(), m_entityRect.y(), m_entityRect.width(), m_entityRect.height()/10 );
     m_entityRect.setHeight(68);
 
+    //Set pixmap
     m_EntityPixmap = new QGraphicsPixmapItem(QPixmap(":/sprites/Enemy1.png"),this);
     m_EntityPixmap->setTransformationMode(Qt::SmoothTransformation);
     m_EntityPixmap->setX(m_entityRect.x());
     m_EntityPixmap->setY(m_entityRect.y() + m_healthRect.height());
-
     m_EntityPixmap->boundingRect().setHeight(m_entityRect.height() - m_healthRect.height());
-
-
-
-//    m_points << QPointF(200,200) << QPointF(400,200); // move down-right then right
-    m_pointIndex = 0;
-//    m_dest = m_points[0];
-
-
-    m_showHealth = false;
-
-
 }
 
 
@@ -54,23 +48,24 @@ void Evil1::paint(QPainter* painter, const QStyleOptionGraphicsItem* /*option*/,
     {
         painter->setBrush(Qt::red);
         painter->drawRect( QRectF(m_entityRect.x(), m_entityRect.y(), m_entityRect.width() * m_health/m_maxHealth, m_entityRect.height()/10) );
-
     }
-
 }
 
 QPainterPath Evil1::shape() const
 {
     QPainterPath painterPath;
-    qreal offset = 2*m_healthRect.height(); // set shape() below a health rect
+    // set shape() below a health rect
+    qreal offset = 2*m_healthRect.height();
     painterPath.addEllipse(m_entityRect.adjusted(offset/2, +offset, -offset/2, +offset));
     return painterPath;
 }
 
 void Evil1::hit(int damage)
 {
-    m_health -= damage;   // Reduce the target's health
-    update( m_healthRect );    // Redraw target
+    // Reduce the target's health
+    m_health -= damage;
+    // Redraw target
+    update( m_healthRect );
     if(m_health <= 0)
     {
         deleteLater();

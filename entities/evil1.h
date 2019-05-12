@@ -10,8 +10,6 @@ class Evil1 : public QObject, public QGraphicsItem
 public:
     int type() const;
     explicit Evil1(QObject *parent = nullptr);
-    void setPixmap(QPixmap pixmap);
-    QPixmap pixmap() const;
     void hit(int damage);
 
     void setRect(QRectF newRect);

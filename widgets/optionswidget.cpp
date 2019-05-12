@@ -53,6 +53,8 @@ OptionsWidget::OptionsWidget(QWidget *parent) :
     ui->soundSlider->setCursor(QCursor(Qt::PointingHandCursor));
     ui->musicSlider->setCursor(QCursor(Qt::PointingHandCursor));
 
+
+
     resize(800, 600);
 }
 
@@ -79,4 +81,17 @@ void OptionsWidget::on_backKButton_2_clicked()
 void OptionsWidget::on_backKButton_clicked()
 {
     emit signalBackClicked();
+}
+
+void OptionsWidget::on_comboBox_currentIndexChanged(const QString &resolutionText)
+{
+    if(ui->comboBox->currentIndex() == (ui->comboBox->count()-1))
+    {
+        emit signalSetFullScreen();
+    }
+    else
+    {
+        emit signalResolutionChanged(resolutionText);
+    }
+
 }

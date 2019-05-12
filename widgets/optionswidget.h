@@ -25,11 +25,15 @@ private slots:
 
     void on_backKButton_clicked();
 
+    void on_comboBox_currentIndexChanged(const QString &arg1);
+
 private:
     Ui::Widget *ui;
 
 signals:
     void signalBackClicked();
+    void signalResolutionChanged(const QString resolution);
+    void signalSetFullScreen();
 
 };
 

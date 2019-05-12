@@ -40,6 +40,8 @@ void Widget::createConnections()
     connect(m_menuWidget, &MenuWidget::signaleOptionsClicked, this, &Widget::slotOpenOptionsWidget);
 
     connect(m_optionsWidget, &OptionsWidget::signalBackClicked, this, &Widget::slotOpenMenuWidget);
+    connect(m_optionsWidget, &OptionsWidget::signalResolutionChanged, this, &Widget::slotSetResolution);
+    connect(m_optionsWidget, &OptionsWidget::signalSetFullScreen, this, &Widget::slotSetFullScreen);
 }
 
 void Widget::slotOpenPlayWidget()
@@ -55,4 +57,23 @@ void Widget::slotOpenMenuWidget()
 void Widget::slotOpenOptionsWidget()
 {
     m_mainWidget->setCurrentIndex(2);
+}
+
+void Widget::slotSetResolution(QString testResolution)
+{
+    //format Resolution: "(width)x(height)"
+    QStringList dataList = testResolution.split("x");
+    if(dataList.size() != 2)
+    {
+        return;
+    }
+    int width = dataList.at(0).toInt();
+    int height = dataList.at(1).toInt();
+
+    resize(width, height);
+}
+
+void Widget::slotSetFullScreen()
+{
+    showFullScreen();
 }

@@ -32,6 +32,9 @@ private slots:
     void slotOpenPlayWidget();
     void slotOpenMenuWidget();
     void slotOpenOptionsWidget();
+
+    void slotSetResolution(QString testResolution);
+    void slotSetFullScreen();
 };
 
 #endif // WIDGET_H

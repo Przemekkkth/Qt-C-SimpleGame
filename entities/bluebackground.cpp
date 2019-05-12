@@ -7,8 +7,6 @@ BlueBackground::BlueBackground() : QGraphicsItem ()
 
    m_EntityPixmap = new QGraphicsPixmapItem(QPixmap(":/sprites/BlueBackground.png"),this);
    m_EntityPixmap->setTransformationMode(Qt::SmoothTransformation);
-//   m_EntityPixmap->setX( m_entityRect.x() );
-//   m_EntityPixmap->setY( m_entityRect.y() );
    m_EntityPixmap->boundingRect().setRect(m_entityRect.x(), m_entityRect.y(), m_entityRect.width(), m_entityRect.height());
 }
 
@@ -38,7 +36,6 @@ void BlueBackground::setEntityPosition(QRectF newRect)
        m_EntityPixmap->boundingRect().setHeight(
                    m_EntityPixmap->boundingRect().height() + scaleY
                    );
-     //  m_EntityPixmap->setPixmap(QPixmap(":/sprites/sprites/Wall1.png"));
       prepareGeometryChange();
       update();
 }

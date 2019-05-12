@@ -589,7 +589,7 @@ color: white;
             </font>
            </property>
            <property name="text">
-            <string>Resolution1</string>
+            <string>Resolution (4:3)</string>
            </property>
            <property name="alignment">
             <set>Qt::AlignCenter</set>

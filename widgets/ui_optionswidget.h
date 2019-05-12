@@ -88,7 +88,7 @@ public:
     {
         if (Widget->objectName().isEmpty())
             Widget->setObjectName(QStringLiteral("Widget"));
-        Widget->resize(640, 587);
+        Widget->resize(800, 600);
         Widget->setAutoFillBackground(true);
         Widget->setStyleSheet(QLatin1String("background-image: url(\"qrc:/sprites/sprites/background_image.png\");\n"
 "\n"
@@ -121,12 +121,12 @@ public:
         stackedWidget->setAutoFillBackground(false);
         stackedWidget->setStyleSheet(QLatin1String("QWidget#stackedWidgetPage1\n"
 "{\n"
-" background-image: url(:/sprites/sprites/background_image.png)\n"
+" background-image: url(:/sprites/Background_Image.png)\n"
 "}\n"
 "\n"
 "QWidget#stackedWidgetPage2\n"
 "{\n"
-" background-image: url(:/sprites/sprites/background_image.png)\n"
+" background-image: url(:/sprites/Background_Image.png)\n"
 "}\n"
 "\n"
 "QPushButton\n"
@@ -429,6 +429,7 @@ public:
         comboBox->addItem(QString());
         comboBox->addItem(QString());
         comboBox->addItem(QString());
+        comboBox->addItem(QString());
         comboBox->setObjectName(QStringLiteral("comboBox"));
         QSizePolicy sizePolicy2(QSizePolicy::Preferred, QSizePolicy::Preferred);
         sizePolicy2.setHorizontalStretch(0);
@@ -562,7 +563,7 @@ public:
 
         retranslateUi(Widget);
 
-        stackedWidget->setCurrentIndex(0);
+        stackedWidget->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(Widget);
@@ -597,10 +598,11 @@ public:
         label_24->setText(QApplication::translate("Widget", "Back", nullptr));
         backKButton->setText(QApplication::translate("Widget", "Back", nullptr));
         otherButton->setText(QApplication::translate("Widget", "Other", nullptr));
-        label_22->setText(QApplication::translate("Widget", "Resolution", nullptr));
+        label_22->setText(QApplication::translate("Widget", "Resolution (4:3)", nullptr));
         comboBox->setItemText(0, QApplication::translate("Widget", "800x600", nullptr));
         comboBox->setItemText(1, QApplication::translate("Widget", "1024x768", nullptr));
         comboBox->setItemText(2, QApplication::translate("Widget", "1366x768", nullptr));
+        comboBox->setItemText(3, QApplication::translate("Widget", "Full Screen", nullptr));
 
         label_15->setText(QApplication::translate("Widget", "Background-music", nullptr));
         label_16->setText(QApplication::translate("Widget", "Background-sound", nullptr));

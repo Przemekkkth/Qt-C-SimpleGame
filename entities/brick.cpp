@@ -28,14 +28,14 @@ void Brick::setEntityPosition(QRectF newRect)
 
    m_entityRect = newRect;
 
-       qreal scaleX = newRect.width() / m_EntityPixmap->boundingRect().width();
-       qreal scaleY =  newRect.height()  / m_EntityPixmap->boundingRect().height();
+   qreal scaleX = newRect.width() / m_EntityPixmap->boundingRect().width();
+   qreal scaleY =  newRect.height()  / m_EntityPixmap->boundingRect().height();
 
-      m_EntityPixmap->setScale( newRect.width() / m_EntityPixmap->boundingRect().width());
-       m_EntityPixmap->setX(m_entityRect.x());
-       m_EntityPixmap->setY( m_entityRect.y() );
-       m_EntityPixmap->boundingRect().setWidth(
-                   m_EntityPixmap->boundingRect().width() + scaleX
+   m_EntityPixmap->setScale( newRect.width() / m_EntityPixmap->boundingRect().width());
+   m_EntityPixmap->setX(m_entityRect.x());
+   m_EntityPixmap->setY( m_entityRect.y() );
+   m_EntityPixmap->boundingRect().setWidth(
+   m_EntityPixmap->boundingRect().width() + scaleX
                    );
        m_EntityPixmap->boundingRect().setHeight(
                    m_EntityPixmap->boundingRect().height() + scaleY
