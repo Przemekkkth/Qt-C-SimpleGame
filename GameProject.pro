@@ -34,6 +34,7 @@ SOURCES += \
     entities/wall.cpp \
     scenes/scene.cpp \
     tools/scenedebuger.cpp \
+    tools/soundmanager.cpp \
     tools/sprite.cpp \
     widgets/menuwidget.cpp \
     widgets/newview.cpp \
@@ -50,6 +51,7 @@ HEADERS += \
     entities/wall.h \
     scenes/scene.h \
     tools/scenedebuger.h \
+    tools/soundmanager.h \
     tools/sprite.h \
     widgets/menuwidget.h \
     widgets/newview.h \
