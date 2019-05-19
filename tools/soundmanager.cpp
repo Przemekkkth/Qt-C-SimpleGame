@@ -16,7 +16,14 @@ void SoundManager::playOneShotBGEffect(QUrl url)
 {
     m_backgroundEffectMediaPlaylist->setCurrentIndex(m_bgEffectMap[url]);
     m_backgroundEffectMediaPlayer->setPlaylist(m_backgroundEffectMediaPlaylist);
-    m_backgroundEffectMediaPlayer->play();
+    m_soundEffectMediaPlayer->setVolume(SDVolume());
+
+    if (m_soundEffectMediaPlayer->state() == QMediaPlayer::PlayingState){
+        m_soundEffectMediaPlayer->setPosition(0);
+    }
+    else if (m_soundEffectMediaPlayer->state() == QMediaPlayer::StoppedState){
+        m_soundEffectMediaPlayer->play();
+    }
 }
 
 void SoundManager::playOneShotSoundEffect(QUrl url)
@@ -49,7 +56,6 @@ void SoundManager::debugSources()
     }
 
 
-
 }
 
 void SoundManager::addBackgroundEffectMedia(QUrl url)
@@ -64,6 +70,18 @@ void SoundManager::addSoundEffectMedia(QUrl url)
     m_soundEffectMediaPlaylist->addMedia(QMediaContent(url));
 }
 
+void SoundManager::createConnections()
+{
+    connect(this, &SoundManager::BGVolumeChanged, [this](int newVal)
+    {
+        this->setBGVolume(newVal);
+    });
+    connect(this, &SoundManager::SDVolumeChanged, [this](int newVal)
+    {
+        this->setSDVolume(newVal);
+    });
+}
+
 void SoundManager::init()
 {
     m_backgroundEffectMediaPlayer = new QMediaPlayer(this);
@@ -73,6 +91,9 @@ void SoundManager::init()
     m_soundEffectMediaPlayer = new QMediaPlayer(this);
     m_soundEffectMediaPlaylist = new QMediaPlaylist(this);
 
+    setBGVolume(50);
+    setSDVolume(50);
+    createConnections();
 }
 
 SoundManager* SoundManager::s_instance = 0;
@@ -91,4 +112,37 @@ SoundManager::SoundManager()
 SoundManager::~SoundManager()
 {
 
+}
+
+void SoundManager::setBGVolume(int value)
+{
+    if(value == m_bgVolume)
+    {
+        return;
+    }
+    value = qBound(0, value, 100);
+    m_bgVolume = value;
+    emit BGVolumeChanged(value);
+}
+
+void SoundManager::setSDVolume(int value)
+{
+    if(value == m_sdVolume)
+    {
+        return;
+    }
+
+    value = qBound(0, value, 100);
+    m_sdVolume = value;
+    emit SDVolumeChanged(value);
+}
+
+int SoundManager::BGVolume() const
+{
+    return m_bgVolume;
+}
+
+int SoundManager::SDVolume() const
+{
+    return m_sdVolume;
 }

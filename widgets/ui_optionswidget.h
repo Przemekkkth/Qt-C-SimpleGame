@@ -488,6 +488,8 @@ public:
         musicSlider->setObjectName(QStringLiteral("musicSlider"));
         musicSlider->setMinimumSize(QSize(0, 40));
         musicSlider->setMaximum(100);
+        musicSlider->setSingleStep(10);
+        musicSlider->setValue(50);
         musicSlider->setOrientation(Qt::Horizontal);
         musicSlider->setTickPosition(QSlider::NoTicks);
 
@@ -519,6 +521,8 @@ public:
         soundSlider->setObjectName(QStringLiteral("soundSlider"));
         soundSlider->setMinimumSize(QSize(0, 40));
         soundSlider->setMaximum(100);
+        soundSlider->setSingleStep(10);
+        soundSlider->setValue(50);
         soundSlider->setOrientation(Qt::Horizontal);
         soundSlider->setTickPosition(QSlider::NoTicks);
 

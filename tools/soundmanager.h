@@ -9,6 +9,7 @@ class QMediaPlaylist;
 
 class SoundManager : public QObject
 {
+    Q_OBJECT
 public:
     SoundManager();
     ~SoundManager();
@@ -18,6 +19,16 @@ public:
     void playOneShotBGEffect(QUrl url);
     void playOneShotSoundEffect(QUrl url);
     void debugSources();
+
+    void setBGVolume(int value);
+    void setSDVolume(int value);
+    int BGVolume() const;
+    int SDVolume() const;
+
+signals:
+    void BGVolumeChanged(int value);
+    void SDVolumeChanged(int value);
+
 private:
     QMediaPlayer *m_backgroundEffectMediaPlayer;
     QMediaPlaylist *m_backgroundEffectMediaPlaylist;
@@ -32,5 +43,10 @@ private:
 
     void addBackgroundEffectMedia(QUrl url);
     void addSoundEffectMedia(QUrl url);
+
+    int m_bgVolume;
+    int m_sdVolume;
+
+    void createConnections();
 };
 #endif // SOUNDMANAGER_H

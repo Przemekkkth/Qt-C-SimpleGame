@@ -27,6 +27,10 @@ private slots:
 
     void on_comboBox_currentIndexChanged(const QString &arg1);
 
+    void on_musicSlider_valueChanged(int value);
+
+    void on_soundSlider_valueChanged(int value);
+
 private:
     Ui::Widget *ui;
 
