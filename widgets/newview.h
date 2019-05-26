@@ -25,6 +25,7 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 signals:
     void signalBackToMenu();
+    void signalOpenPlayWidget();
 };
 
 #endif // NEWVIEW_H

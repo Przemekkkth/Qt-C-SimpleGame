@@ -27,14 +27,16 @@ Scene::Scene(QObject */*parent*/) : QGraphicsScene ()
 
     playBackgroundMusic();
     m_debugMode = false;
-    m_pauseMode = false;
+    m_pauseMode = true;
 
     createEntities();
     setEntitiesPosition();
 
+
     m_sceneTimer = new QTimer(this);
     connect(m_sceneTimer, &QTimer::timeout, this, &Scene::advance);
-    m_sceneTimer->start(1000/60);
+  //  m_sceneTimer->start(1000/60);
+    m_sceneTimer->stop();
 }
 
 
@@ -202,7 +204,7 @@ void Scene::setEntitiesPosition()
                                                                                       << QPointF(37*tileWidth, 3*tileHeight)
                                       );
 
-    m_enemiesVector[1]->setMovePoints(QList<QPointF>() << QPointF( 37*tileWidth, 20*tileHeight)
+    m_enemiesVector[1]->setMovePoints(QList<QPointF>() << QPointF( 37*tileWidth, 21*tileHeight)
                                                                                       << QPointF( 37*tileWidth, 26*tileHeight)
                                                                                       << QPointF( 26*tileWidth, 26*tileHeight)
                                                                                       << QPointF( 26*tileWidth, 20*tileHeight)
@@ -297,17 +299,13 @@ void Scene::keyPressEvent(QKeyEvent *event)
     }
     if(event->key() == Qt::Key_P)
     {
-        if(m_pauseMode)
-        {
-            m_sceneTimer->stop();
-        }
-        else
-        {
-            m_sceneTimer->start();
-        }
-        m_pauseMode = !m_pauseMode;
-
+        pause();
     }
+    if(event->key() == Qt::Key_Z)
+    {
+        play();
+    }
+
 
     QGraphicsScene::keyPressEvent(event);
 }
@@ -377,11 +375,37 @@ void Scene::setInitEntitiesPosition(qreal tileX, qreal tileY)
     }
     if(m_enemiesVector[1])
     {
-        m_enemiesVector[1]->setPos( 37*tileX, 20*tileY);
+        m_enemiesVector[1]->setPos( 37*tileX, 21*tileY);
     }
     if( m_enemiesVector[2] )
     {
         m_enemiesVector[2]->setPos(2*tileX, 26*tileY);
+    }
+
+}
+
+void Scene::play()
+{
+    m_sceneTimer->start(1000/60);
+    m_pauseMode = false;
+
+}
+
+void Scene::stop()
+{
+    m_sceneTimer->stop();
+}
+
+void Scene::pause()
+{
+    m_pauseMode = !m_pauseMode;
+    if(m_pauseMode)
+    {
+        m_sceneTimer->stop();
+    }
+    else
+    {
+        m_sceneTimer->start();
     }
 
 }

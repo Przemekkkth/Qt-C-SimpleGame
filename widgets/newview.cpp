@@ -1,3 +1,4 @@
+
 #include "newview.h"
 #include "scenes/scene.h"
 #include <QGraphicsItem>
@@ -51,13 +52,18 @@ void NewView::resizeEvent(QResizeEvent*)
 void NewView::createConnections()
 {
     //connect(m_scene, &Scene::signalFromHeroMouseTracking, this, &NewView::slotSetMouseTracking);
+    connect(this, &NewView::signalOpenPlayWidget, [this](){
+        if(Scene* myScene = qobject_cast<Scene*>(scene()))
+        {
+            myScene->play();
+        }
+    });
 }
 
 void NewView::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Backspace)
     {
-        qDebug() << "Backspace";
         emit signalBackToMenu();
     }
     QGraphicsView::keyPressEvent(event);

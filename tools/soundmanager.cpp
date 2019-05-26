@@ -14,22 +14,15 @@ SoundManager* SoundManager::instance()
 
 void SoundManager::playOneShotBGEffect(QUrl url)
 {
-    m_backgroundEffectMediaPlaylist->setCurrentIndex(m_bgEffectMap[url]);
-    m_backgroundEffectMediaPlayer->setPlaylist(m_backgroundEffectMediaPlaylist);
-    m_soundEffectMediaPlayer->setVolume(SDVolume());
+    m_backgroundEffectMediaPlaylist->setCurrentIndex(m_bgEffectMap[url]-1);
+    m_backgroundEffectMediaPlayer->setVolume(BGVolume());
+    m_backgroundEffectMediaPlayer->play();
 
-    if (m_soundEffectMediaPlayer->state() == QMediaPlayer::PlayingState){
-        m_soundEffectMediaPlayer->setPosition(0);
-    }
-    else if (m_soundEffectMediaPlayer->state() == QMediaPlayer::StoppedState){
-        m_soundEffectMediaPlayer->play();
-    }
 }
 
 void SoundManager::playOneShotSoundEffect(QUrl url)
 {
-    m_soundEffectMediaPlaylist->setCurrentIndex(m_soundEffectMap[url]);
-    // play bulletsound
+    m_soundEffectMediaPlaylist->setCurrentIndex(m_soundEffectMap[url]-1);
     if (m_soundEffectMediaPlayer->state() == QMediaPlayer::PlayingState){
         m_soundEffectMediaPlayer->setPosition(0);
     }
@@ -45,14 +38,26 @@ void SoundManager::debugSources()
     QMapIterator<QUrl, int> bgIter(m_bgEffectMap);
     while (bgIter.hasNext()) {
         bgIter.next();
-        qDebug() << "idx: " << bgIter.key() << " url: " << bgIter.value();
+        qDebug() << "idx: " << bgIter.value() << " url: " << bgIter.key();
     }
 
     qDebug() << "soundEffect";
     QMapIterator<QUrl, int> sdIter(m_soundEffectMap);
     while (sdIter.hasNext()) {
         sdIter.next();
-        qDebug() << "idx: " << sdIter.key() << " url: " << sdIter.value();
+        qDebug() << "idx: " << sdIter.value() << " url: " << sdIter.key();
+    }
+
+    qDebug() << "m_soundEffectMediaPlaylist";
+    for(int i = 0; i < m_soundEffectMediaPlaylist->mediaCount(); ++i)
+    {
+        qDebug() << "idx " << i << " " << m_soundEffectMediaPlaylist->media(i).canonicalUrl().toString();
+    }
+
+    qDebug() << "m_bgEffectMediaPlaylist";
+    for (int i = 0; i < m_backgroundEffectMediaPlaylist->mediaCount(); ++i)
+    {
+        qDebug() << "idx " << i << " " << m_backgroundEffectMediaPlaylist->media(i).canonicalUrl().toString();
     }
 
 
@@ -85,11 +90,11 @@ void SoundManager::createConnections()
 void SoundManager::init()
 {
     m_backgroundEffectMediaPlayer = new QMediaPlayer(this);
-    m_backgroundEffectMediaPlaylist = new QMediaPlaylist(this);
-    m_backgroundEffectMediaPlaylist->setPlaybackMode(QMediaPlaylist::Loop);
+    m_backgroundEffectMediaPlaylist = new QMediaPlaylist(m_backgroundEffectMediaPlayer);
+    m_backgroundEffectMediaPlaylist->setPlaybackMode(QMediaPlaylist::CurrentItemInLoop);
 
     m_soundEffectMediaPlayer = new QMediaPlayer(this);
-    m_soundEffectMediaPlaylist = new QMediaPlaylist(this);
+    m_soundEffectMediaPlaylist = new QMediaPlaylist(m_soundEffectMediaPlayer);
 
     setBGVolume(50);
     setSDVolume(50);
@@ -103,9 +108,14 @@ SoundManager::SoundManager()
     init();
     m_backgroundEffectMediaPlayer->setPlaylist(m_backgroundEffectMediaPlaylist);
     m_soundEffectMediaPlayer->setPlaylist(m_soundEffectMediaPlaylist);
-    addBackgroundEffectMedia(QUrl("qrc:/bgeffect/BG1Sounds.wav"));
-    addSoundEffectMedia(QUrl("qrc:/soundeffect/Explosion3.wav"));
-    addSoundEffectMedia(QUrl("qrc:/soundeffect/Laser_Shoot6.wav"));
+    //Background-music
+    addBackgroundEffectMedia(QUrl("qrc:/sounds/assets/sounds/BG1Sounds.wav"));
+    addBackgroundEffectMedia(QUrl("qrc:/sounds/assets/sounds/POL-chamber-of-secrets-short.wav"));
+    //Sound-effect
+    addSoundEffectMedia(QUrl("qrc:/sounds/assets/sounds/Explosion3.wav"));
+    addSoundEffectMedia(QUrl("qrc:/sounds/assets/sounds/Laser_Shoot6.wav"));
+
+    //debugSources();
 
 }
 

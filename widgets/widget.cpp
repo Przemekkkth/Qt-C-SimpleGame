@@ -4,6 +4,8 @@
 #include "ui_optionswidget.h"
 #include <QVBoxLayout>
 
+#include "../tools/soundmanager.h"
+
 Widget::Widget(QWidget *parent)
     : QWidget(parent)
 {
@@ -25,6 +27,7 @@ Widget::Widget(QWidget *parent)
     m_mainWidget->setCurrentIndex(0);
 
     createConnections();
+    SoundManager::instance()->playOneShotBGEffect(QUrl("qrc:/sounds/assets/sounds/POL-chamber-of-secrets-short.wav"));
 }
 
 Widget::~Widget()
@@ -35,6 +38,10 @@ Widget::~Widget()
 void Widget::createConnections()
 {
     connect(m_newView, &NewView::signalBackToMenu, this, &Widget::slotOpenMenuWidget);
+    connect(m_newView, &NewView::signalBackToMenu, [](){
+
+       SoundManager::instance()->playOneShotBGEffect(QUrl("qrc:/sounds/assets/sounds/POL-chamber-of-secrets-short.wav"));
+    });
 
     connect(m_menuWidget, &MenuWidget::signalPlayClicked, this, &Widget::slotOpenPlayWidget);
     connect(m_menuWidget, &MenuWidget::signaleOptionsClicked, this, &Widget::slotOpenOptionsWidget);
@@ -42,11 +49,15 @@ void Widget::createConnections()
     connect(m_optionsWidget, &OptionsWidget::signalBackClicked, this, &Widget::slotOpenMenuWidget);
     connect(m_optionsWidget, &OptionsWidget::signalResolutionChanged, this, &Widget::slotSetResolution);
     connect(m_optionsWidget, &OptionsWidget::signalSetFullScreen, this, &Widget::slotSetFullScreen);
+
+    connect(this, &Widget::signalOpenPlayWidget, m_newView, &NewView::signalOpenPlayWidget);
 }
 
 void Widget::slotOpenPlayWidget()
 {
     m_mainWidget->setCurrentIndex(1);
+    SoundManager::instance()->playOneShotBGEffect(QUrl("qrc:/sounds/assets/sounds/BG1Sounds.wav"));
+    emit signalOpenPlayWidget();
 }
 
 void Widget::slotOpenMenuWidget()

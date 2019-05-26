@@ -17,5 +17,6 @@
         <file>assets/sounds/BG1Sounds.wav</file>
         <file>assets/sounds/Explosion3.wav</file>
         <file>assets/sounds/Laser_Shoot6.wav</file>
+        <file>assets/sounds/POL-chamber-of-secrets-short.wav</file>
     </qresource>
 </RCC>

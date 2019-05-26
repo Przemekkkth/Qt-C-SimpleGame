@@ -1,9 +1,11 @@
 #ifndef SCENE_H
 #define SCENE_H
 
+#include "../tools/config.h"
 #include <QGraphicsScene>
 #include <QObject>
 #include <QGraphicsSceneMouseEvent>
+
 
 class Wall;
 class Hero;
@@ -38,6 +40,10 @@ public:
     void playBackgroundMusic(bool enabled = true);
 
     QGraphicsItem* getPlayer();
+
+    void play();
+    void stop();
+    void pause();
 private:
     //Entities
     QVector<Brick* > m_horzBricks;

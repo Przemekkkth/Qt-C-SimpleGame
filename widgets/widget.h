@@ -35,6 +35,9 @@ private slots:
 
     void slotSetResolution(QString testResolution);
     void slotSetFullScreen();
+
+signals:
+    void signalOpenPlayWidget();
 };
 
 #endif // WIDGET_H
