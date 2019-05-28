@@ -68,7 +68,8 @@ void Evil1::hit(int damage)
     update( m_healthRect );
     if(m_health <= 0)
     {
-        deleteLater();
+        //deleteLater();
+        scene()->removeItem(this);
     }
 }
 
@@ -107,6 +108,16 @@ void Evil1::createRoad()
 {
     if( m_points.isEmpty() )
         return;
+}
+
+void Evil1::setMaxHealth()
+{
+    m_health = m_maxHealth;
+}
+
+void Evil1::setShowHealth(bool enabled)
+{
+    m_showHealth = enabled;
 }
 
 void Evil1::setMovePoints(QList<QPointF>& points)

@@ -44,6 +44,7 @@ public:
     void play();
     void stop();
     void pause();
+    void reset();
 private:
     //Entities
     QVector<Brick* > m_horzBricks;
@@ -60,6 +61,9 @@ private:
     //Create Entities
 
     void createEntities();
+    void createDynamicEntities();
+    void initDynamicEntities();
+    void resetDynamicEntitiesPos();
 
     int doubleToIntCoordinate(double point);
 

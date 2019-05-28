@@ -30,6 +30,7 @@ Scene::Scene(QObject */*parent*/) : QGraphicsScene ()
     m_pauseMode = true;
 
     createEntities();
+    createDynamicEntities();
     setEntitiesPosition();
 
 
@@ -55,6 +56,7 @@ QRectF Scene::tileRect()
 
 void Scene::createEntities()
 {
+
 //Create background
     m_background = new BlueBackground();
     addItem(m_background);
@@ -83,14 +85,16 @@ void Scene::createEntities()
 /////////////////////////////////////////////////////////////////////////////////
 
 
-//Create game's Hero
-    m_hero = new Hero();
-    addItem(m_hero);
-    m_hero->setPos(200, 200);
-    m_hero->setFlag(QGraphicsItem::ItemIsFocusable);
-    m_hero->setFocus();
 
-/////////////////////////////////////////////////////////////////////////////////////////
+
+//Create ground  [2xtileWidth, 2xtileHeight]
+        for(int i = 0; i < columns()/2; ++i)
+        {
+            Ground* ground = new Ground();
+            m_grounds.push_back(ground);
+            addItem(ground);
+        }
+    /////////////////////////////////////////////////////////////////////////////////////////
 
 //Create Bricks
     int vColumns = 10;
@@ -112,26 +116,53 @@ void Scene::createEntities()
     }
 /////////////////////////////////////////////////////////////////////////////////////////
 
-//Create ground  [2xtileWidth, 2xtileHeight]
-    for(int i = 0; i < columns()/2; ++i)
-    {
-        Ground* ground = new Ground();
-        m_grounds.push_back(ground);
-        addItem(ground);
-    }
-/////////////////////////////////////////////////////////////////////////////////////////
 
-    //create enemies
-    for(int idx = 0;  idx < 3; ++idx)
-    {
-        Evil1* evil1= new Evil1();
-        m_enemiesVector.push_back(evil1);
-        addItem(evil1);
-   }
 //Grid
     if(m_debugMode){
         m_sceneDebuger = new SceneDebuger(m_columns, m_rows, tileRect().width(), tileRect().height());
         addItem(m_sceneDebuger);
+    }
+}
+
+void Scene::createDynamicEntities()
+{
+    //Create game's Hero
+        m_hero = new Hero();
+        addItem(m_hero);
+        m_hero->setPos(3*tileRect().width(), 3*tileRect().height());
+        m_hero->setFlag(QGraphicsItem::ItemIsFocusable);
+        m_hero->setFocus();
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+
+        //create enemies
+        for(int idx = 0;  idx < 3; ++idx)
+        {
+            Evil1* evil1= new Evil1();
+            m_enemiesVector.push_back(evil1);
+            addItem(evil1);
+       }
+    /////////////////////////////////////////////////////////////////////////////////////////
+}
+
+void Scene::initDynamicEntities()
+{
+    removeItem(m_hero);
+//    m_hero = NULL;
+    for(int i = 0; i < m_enemiesVector.size(); ++i)
+    {
+        removeItem(m_enemiesVector[i]);
+    }
+}
+
+void Scene::resetDynamicEntitiesPos()
+{
+    addItem(m_hero);
+    for(int i = 0; i < m_enemiesVector.size(); ++i)
+    {
+        addItem(m_enemiesVector[i]);
+        m_enemiesVector[i]->setMaxHealth();
+        m_enemiesVector[i]->setShowHealth(false);
     }
 }
 
@@ -305,6 +336,10 @@ void Scene::keyPressEvent(QKeyEvent *event)
     {
         play();
     }
+    if(event->key() == Qt::Key_R)
+    {
+        reset();
+    }
 
 
     QGraphicsScene::keyPressEvent(event);
@@ -368,19 +403,14 @@ QGraphicsItem *Scene::getPlayer()
 
 void Scene::setInitEntitiesPosition(qreal tileX, qreal tileY)
 {
-    m_hero->setPos( 12*tileX , 12*tileY);
-    if(m_enemiesVector[0])
-    {
-        m_enemiesVector[0]->setPos(37*tileX, 3*tileY);
-    }
-    if(m_enemiesVector[1])
-    {
-        m_enemiesVector[1]->setPos( 37*tileX, 21*tileY);
-    }
-    if( m_enemiesVector[2] )
-    {
-        m_enemiesVector[2]->setPos(2*tileX, 26*tileY);
-    }
+    m_hero->setPos( 3*tileX , 3*tileY);
+
+    m_enemiesVector[0]->setPos(37*tileX, 3*tileY);
+
+    m_enemiesVector[1]->setPos( 37*tileX, 21*tileY);
+
+    m_enemiesVector[2]->setPos(2*tileX, 26*tileY);
+
 
 }
 
@@ -388,7 +418,7 @@ void Scene::play()
 {
     m_sceneTimer->start(1000/60);
     m_pauseMode = false;
-
+    setInitEntitiesPosition(tileRect().width(), tileRect().height());
 }
 
 void Scene::stop()
@@ -408,4 +438,13 @@ void Scene::pause()
         m_sceneTimer->start();
     }
 
+}
+
+void Scene::reset()
+{
+    //initDynamicEntities();
+    //createDynamicEntities();
+    resetDynamicEntitiesPos();
+    setInitEntitiesPosition(tileRect().width(), tileRect().height());
+    setEntitiesPosition();
 }

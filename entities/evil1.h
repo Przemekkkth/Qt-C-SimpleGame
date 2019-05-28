@@ -20,6 +20,9 @@ public:
 
     void debugBundingRect();
     void createRoad();
+
+    void setMaxHealth();
+    void setShowHealth(bool enabled);
 private:
     int m_health;
     int m_maxHealth;
