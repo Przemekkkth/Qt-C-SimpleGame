@@ -1,4 +1,7 @@
 #include "scene.h"
+
+#include "logic/logic.h"
+
 #include "entities/wall.h"
 #include "entities/hero.h"
 #include "entities/bullet.h"
@@ -13,11 +16,14 @@
 #include <QMediaPlaylist>
 #include <QKeyEvent>
 #include <QDebug>
-
 #include <QTimer>
+
 
 Scene::Scene(QObject */*parent*/) : QGraphicsScene ()
 {
+    //Logic
+    m_logic = new Logic();
+    connect(m_logic, &Logic::signalNextLevel, this, &Scene::signalNextLevel);
 
     initMedia();
     //Initialize level tiles
@@ -38,6 +44,8 @@ Scene::Scene(QObject */*parent*/) : QGraphicsScene ()
     connect(m_sceneTimer, &QTimer::timeout, this, &Scene::advance);
   //  m_sceneTimer->start(1000/60);
     m_sceneTimer->stop();
+
+
 }
 
 
@@ -134,15 +142,19 @@ void Scene::createDynamicEntities()
         m_hero->setFocus();
 
     /////////////////////////////////////////////////////////////////////////////////////////
-
+        m_logic->setCountEnemiesToDestroy(3);
         //create enemies
         for(int idx = 0;  idx < 3; ++idx)
         {
-            Evil1* evil1= new Evil1();
+            Evil1* evil1= new Evil1(this);
+            connect(evil1, &Evil1::signalEntityDestroyed, m_logic, &Logic::slotDecreaseEnemies);
             m_enemiesVector.push_back(evil1);
             addItem(evil1);
-       }
+        }
     /////////////////////////////////////////////////////////////////////////////////////////
+    //Add enemies to Logic
+    /////////////////////////////////////////////////////////////////////////////////////////
+
 }
 
 void Scene::initDynamicEntities()
@@ -442,8 +454,7 @@ void Scene::pause()
 
 void Scene::reset()
 {
-    //initDynamicEntities();
-    //createDynamicEntities();
+    m_logic->reset();
     resetDynamicEntitiesPos();
     setInitEntitiesPosition(tileRect().width(), tileRect().height());
     setEntitiesPosition();

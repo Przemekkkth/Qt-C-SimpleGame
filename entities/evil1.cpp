@@ -70,6 +70,7 @@ void Evil1::hit(int damage)
     {
         //deleteLater();
         scene()->removeItem(this);
+        emit signalEntityDestroyed();
     }
 }
 

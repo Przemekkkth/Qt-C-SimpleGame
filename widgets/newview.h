@@ -12,6 +12,7 @@ protected:
     void resizeEvent(QResizeEvent* e);
 private slots:
     void slotSetMouseTracking(bool enabled);
+    void slotNextLevel();
 private:
     Scene *m_scene;
     void createConnections();

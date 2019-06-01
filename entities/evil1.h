@@ -56,6 +56,8 @@ public slots:
     // QGraphicsItem interface
 public:
     void advance(int phase);
+signals:
+    void signalEntityDestroyed();
 };
 
 #endif // EVIL1_H

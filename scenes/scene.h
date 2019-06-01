@@ -2,6 +2,7 @@
 #define SCENE_H
 
 #include "../tools/config.h"
+#include "../logic/logic.h"
 #include <QGraphicsScene>
 #include <QObject>
 #include <QGraphicsSceneMouseEvent>
@@ -17,6 +18,7 @@ class BlueBackground;
 class QMediaPlayer;
 class QMediaPlaylist;
 class QTimer;
+class Logic;
 
 class Scene : public QGraphicsScene
 {
@@ -85,6 +87,9 @@ private:
     void initMedia();
 
     QTimer* m_sceneTimer;
+
+    //Logic
+    Logic *m_logic;
 private slots:
     void slotBullet(QPointF start, QPointF end);
     void slotCreateTarget();
@@ -99,6 +104,8 @@ protected:
 
 public slots:
    void advance();
+signals:
+   void signalNextLevel();
 };
 
 #endif // SCENE_H

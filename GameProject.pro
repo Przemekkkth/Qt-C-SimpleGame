@@ -24,6 +24,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 
 SOURCES += \
+    logic/logic.cpp \
         main.cpp \
     entities/bluebackground.cpp \
     entities/brick.cpp \
@@ -49,6 +50,7 @@ HEADERS += \
     entities/ground.h \
     entities/hero.h \
     entities/wall.h \
+    logic/logic.h \
     scenes/scene.h \
     tools/scenedebuger.h \
     tools/soundmanager.h \

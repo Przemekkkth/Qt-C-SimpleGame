@@ -1,4 +1,4 @@
-
+#include <QMessageBox>
 #include "newview.h"
 #include "scenes/scene.h"
 #include <QGraphicsItem>
@@ -58,6 +58,7 @@ void NewView::createConnections()
             myScene->play();
         }
     });
+    connect(m_scene, &Scene::signalNextLevel, this, &NewView::slotNextLevel);
 }
 
 void NewView::keyPressEvent(QKeyEvent *event)
@@ -71,5 +72,11 @@ void NewView::keyPressEvent(QKeyEvent *event)
 
 void NewView::slotSetMouseTracking(bool enabled)
 {
-   // setMouseTracking(enabled);
+    // setMouseTracking(enabled);
+}
+
+void NewView::slotNextLevel()
+{
+    QMessageBox::information(nullptr, "Test", "Next Level");
+    qDebug() << "Next Level";
 }
